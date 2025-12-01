@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GestureTalk AI</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- AOS Animate On Scroll -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-900 text-white">
+
+<!-- ========================= NAVBAR ========================= -->
+<nav class="bg-gray-800 fixed w-full top-0 z-50 shadow-lg">
+    <div class="container mx-auto p-4 flex justify-between items-center">
+        <h1 class="text-xl font-bold text-cyan-400">GestureTalk AI</h1>
+
+        <ul class="flex space-x-6">
+            <li><a href="#home" class="hover:text-cyan-400">Home</a></li>
+            <li><a href="#about" class="hover:text-cyan-400">About</a></li>
+            <li><a href="#contact" class="hover:text-cyan-400">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ========================= HOME SECTION ========================= -->
+<section id="home" class="min-h-screen flex items-center justify-center px-6 pt-24">
+    <div class="text-center" data-aos="fade-up">
+        <h1 class="text-5xl font-extrabold text-cyan-300 mb-4">GestureTalk AI</h1>
+        <p class="text-gray-300 text-lg mb-6 max-w-xl mx-auto">
+            Upload a sign language video and let AI translate it instantly.
+        </p>
+
+        <div class="bg-gray-800 p-6 rounded-lg shadow-xl max-w-lg mx-auto">
+            <input type="file" id="fileInput" accept="video/mp4" 
+                class="mb-4 w-full bg-gray-700 p-3 rounded" />
+           <button type="button" onclick="uploadVideo()"
+             class="bg-cyan-500 text-black font-bold px-6 py-3 rounded hover:bg-cyan-400 transition">
+             Upload & Translate
+           </button>
+
+        </div>
+
+       <div id="resultBox" class="hidden mt-6 bg-gray-800 p-4 rounded-lg shadow-lg">
+          <h2 class="text-2xl font-bold text-cyan-400">Prediction Result:</h2>
+          <p id="predictionText" class="text-xl mt-2"></p>
+       </div>
+
+    </div>
+</section>
+
+<!-- ========================= ABOUT SECTION ========================= -->
+<section id="about" class="min-h-screen flex items-center px-6 bg-gray-800">
+    <div class="container mx-auto py-16" data-aos="fade-right">
+        <h2 class="text-4xl font-bold text-cyan-300 mb-4">About GestureTalk</h2>
+
+        <p class="text-gray-300 text-lg leading-relaxed max-w-3xl">
+            GestureTalk AI is designed to translate sign language gestures into readable text
+            using computer vision and AI.  
+            <br><br>
+            We detect hand landmarks using advanced neural networks, extract 3D keypoints,
+            and classify them with our trained deep learning model.
+            <br><br>
+            Our goal is to make communication more accessible for everyone.
+        </p>
+    </div>
+</section>
+
+<!-- ========================= CONTACT SECTION ========================= -->
+<section id="contact" class="min-h-screen flex items-center px-6">
+    <div class="container mx-auto py-16" data-aos="fade-left">
+        <h2 class="text-4xl font-bold text-cyan-300 mb-5">Contact Us</h2>
+
+        <form class="max-w-xl space-y-5 bg-gray-800 p-8 rounded-lg shadow-xl">
+            <input 
+                type="text" 
+                placeholder="Your Name"
+                class="w-full p-3 rounded bg-gray-700 border border-gray-500"
+            />
+
+            <input 
+                type="email" 
+                placeholder="Your Email"
+                class="w-full p-3 rounded bg-gray-700 border border-gray-500"
+            />
+
+            <textarea 
+                placeholder="Your Message"
+                rows="5"
+                class="w-full p-3 rounded bg-gray-700 border border-gray-500"
+            ></textarea>
+
+            <button 
+                class="bg-cyan-500 text-black font-bold px-6 py-3 rounded hover:bg-cyan-400 transition">
+                Send Message
+            </button>
+        </form>
+    </div>
+</section>
+
+<!-- ========================= AOS INIT ========================= -->
+<script>
+    AOS.init();
+</script>
+<!-- ========================= JS FOR API ========================= -->
+<script>
+async function uploadVideo() {
+    let file = document.getElementById("fileInput").files[0];
+    if (!file) return alert("Please select a video first!");
+
+    const formData = new FormData();
+    formData.append("video", file);
+
+    const resultBox = document.getElementById("resultBox");
+    const resultText = document.getElementById("predictionText");
+
+    resultBox.classList.remove("hidden");
+    resultText.innerText = "Processing...";
+
+    try {
+        console.log("📤 Sending to backend...");
+
+        const response = await fetch("http://127.0.0.1:5000/predict", {
+            method: "POST",
+            body: formData
+        });
+
+        console.log("📥 Raw response object:", response);
+
+        const responseText = await response.text();
+        console.log("📄 Raw text from backend:", responseText);
+
+        let data;
+        try {
+            data = JSON.parse(responseText);
+        } catch (err) {
+            console.error("❌ JSON error:", err);
+            resultText.innerText = "❌ Backend returned invalid JSON.";
+            return;
+        }
+
+        console.log("🎉 Prediction JSON:", data);
+
+        if (!data.prediction) {
+            resultText.innerText = "❌ No prediction received.";
+            return;
+        }
+
+        resultText.innerText = "Prediction: " + data.prediction;
+
+    } catch (err) {
+        console.error("🔥 Fetch error:", err);
+        resultText.innerText = "❌ Could not connect to backend.";
+    }
+}
+</script>
+</body>
+</html>
+
