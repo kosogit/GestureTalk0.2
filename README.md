@@ -1,4 +1,4 @@
-📘 GestureTalk AI
+# 📘 GestureTalk AI
 
 
 ##
@@ -13,57 +13,32 @@
 
 ## Real-time hand tracking
 
-##
-
 ## Fast and accurate gesture recognition
-
-##
 
 ## ✋ Real-time gesture tracking using MediaPipe Hand Landmark Detection
 
-## 
-
 ## 🧠 Custom-trained ML model for accurate sign classification
-
-## 
 
 ## 🎤 Text-to-Speech output for smooth communication
 
-## 
-
 ## 🎯 Supports multiple gestures with high accuracy
-
-## 
 
 ## 🪶 Lightweight, fast, and optimized for real-time performance
 
-## 
-
 ## 🧩 Easy to extend with new gestures and models
-
-
-
+#
 # 🛠️ Technologies Used
 
 ## Python
-## 
 ## MediaPipe
-## 
 ## TensorFlow
-## 
 ## OpenCV
-## 
 ## NumPy
-## 
 ## scikit-learn
-
-
-
-
-
+#
 # 📁 Project Structure
 
-### GestureTalk-AI/
+## GestureTalk-AI/
 ## │── data/               # Dataset for gesture training
 ## │── model/              # Saved ML model files
 ## │── src/                # Main program code
@@ -73,7 +48,7 @@
 ## │── README.md
 ## │── requirements.txt
 
-
+#
 # ⚙️ How It Works
 
 ### 
@@ -95,7 +70,8 @@
 ### 
 
 ## The system displays the prediction and optionally speaks it aloud.
-###
+
+#
 # 🚀 How to Run the Project
 ## ✅ Step 1: Install Dependencies
 ### Run this command in your terminal:
