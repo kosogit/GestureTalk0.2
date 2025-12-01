@@ -30,19 +30,22 @@ scikit-learn
 
 
 
-How to Run
+🚀 How to Run the Project
+✅ Step 1: Install Dependencies
 
-Install all required packages:
+Run this command in your terminal:
 
 pip install -r requirements.txt
 
+✅ Step 2: Create the Dataset
 
-Create the dataset using:
+Use the trainer script to collect gesture data:
 
 python trainer.py
 
+✅ Step 3: Train & Generate the Model
 
-Train and generate the model:
+After collecting data, train your model:
 
 python createModel.py
 
