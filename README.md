@@ -111,4 +111,11 @@
 # 
 
 # The system displays the prediction and optionally speaks it aloud.
+######How to RUN :-################################################
+run this code to terminal 
+   pip install -r requirements.txt
+then use trainer.py create the data set 
+then create the model using createModel.py
+
+
 
